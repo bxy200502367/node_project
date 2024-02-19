@@ -1,0 +1,22 @@
+{
+    "shanghai": {
+        "url": "http://wpm2sh.sanger.com",
+        "client": "client01",
+        "mysql_client_key": "1ZYw71APsQ"
+    },
+    "ningbo": {
+        "url": "http://wpm.i-sanger.com/",
+        "client": "client01",
+        "mysql_client_key": "1ZYw71APsQ"
+    },
+    "ningbo_test": {
+        "url": "http://wpm2.sanger.com",
+        "client": "client03",
+        "mysql_client_key": "hM4uZcGs9d"
+    },
+    "default": {
+        "url": "http://wpm2sh.sanger.com",
+        "client": "client01",
+        "mysql_client_key": "1ZYw71APsQ"
+    }
+}

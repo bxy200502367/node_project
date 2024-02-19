@@ -1,0 +1,6 @@
+{
+    "datasplit": {
+        "url": "mongodb://datasplit:m329ak8k39fm@10.2.9.11,10.2.9.12,10.2.9.13/datasplit?authMechanism=SCRAM-SHA-1",
+        "dbName": "datasplit"
+    }
+}

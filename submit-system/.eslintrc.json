@@ -1,0 +1,85 @@
+// {
+//     "parser": "@typescript-eslint/parser",
+//     "env": {
+//         "es6": true
+//     },
+//     "plugins": ["import", "@typescript-eslint"],
+//     "extends": [
+//         "eslint:recommended",
+//         "plugin:@typescript-eslint/recommended"
+//     ],
+//     "overrides": [
+//         {
+//             "files": ["*.mts"],
+//             "rules": {
+//                 "no-restricted-syntax": [
+//                     "error",
+//                     {
+//                       "selector": "CallExpression[callee.name='require']",
+//                       "message": "Require is not allowed, use import instead."
+//                     },
+//                     {
+//                       "selector": "MemberExpression[object.name='module'][property.name='exports']",
+//                       "message": "module.exports is not allowed, use export instead."
+//                     },
+//                     {
+//                       "selector": "MemberExpression[object.name='exports']",
+//                       "message": "exports is not allowed, use export instead."
+//                     },
+//                     // {
+//                     //   "selector": "Identifier[name='__dirname']",
+//                     //   "message": "__dirname is not allowed."
+//                     // },
+//                     // {
+//                     //   "selector": "Identifier[name='__filename']",
+//                     //   "message": "__filename is not allowed."
+//                     // },
+//                     {
+//                       "selector": "MemberExpression[object.callee.name='require'][property.name='resolve']",
+//                       "message": "require.resolve is not allowed."
+//                     },
+//                     {
+//                       "selector": "MemberExpression[object.callee.name='require'][property.name='cache']",
+//                       "message": "require.cache is not allowed."
+//                     },
+//                     {
+//                       "selector": "MemberExpression[object.callee.name='require'][property.name='extensions']",
+//                       "message": "require.extensions is not allowed."
+//                     },
+//                     {
+//                       "selector": "MemberExpression[object.callee.name='require'][property.name='main']",
+//                       "message": "require.main is not allowed."
+//                     },
+//                     {
+//                       "selector": "MemberExpression[object.name='module'][property.name='id']",
+//                       "message": "module.id is not allowed."
+//                     },
+//                     {
+//                       "selector": "MemberExpression[object.name='module'][property.name='loaded']",
+//                       "message": "module.loaded is not allowed."
+//                     },
+//                     {
+//                       "selector": "MemberExpression[object.name='module'][property.name='parent']",
+//                       "message": "module.parent is not allowed."
+//                     },
+//                     {
+//                       "selector": "MemberExpression[object.name='module'][property.name='children']",
+//                       "message": "module.children is not allowed."
+//                     },
+//                     {
+//                       "selector": "MemberExpression[object.name='module'][property.name='paths']",
+//                       "message": "module.paths is not allowed."
+//                     },
+//                     {
+//                       "selector": "MemberExpression[object.callee.name='require'][property.name='paths']",
+//                       "message": "require.paths is not allowed."
+//                     }
+//                 ]
+//             }
+//         }
+//     ],
+//     "rules": {
+//         "import/no-commonjs": "error",
+//         "@typescript-eslint/no-var-requires": "off"
+//     }
+// }

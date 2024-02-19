@@ -1,0 +1,14 @@
+{
+    "xiaomei": {
+        "name": "xiaomei",
+        "description": "数据中心线上维护群",
+        "webhook": "https://oapi.dingtalk.com/robot/send?access_token=1e9331603c0b7cdbb27c055cd1879a83a7ba8730c5868f7fde3d639cf028872d",
+        "secret": "SECafc82ce66f104044c8116b950b092d3bd815eba983b6ff18958f51f817421768"
+    },
+    "DS": {
+        "name": "DS",
+        "description": "DatasplitAlert",
+        "webhook": "https://oapi.dingtalk.com/robot/send?access_token=c49bdca5750a2f1835a8782b7813367ebaa9c2413d38e5416cfcf66bbca4797c",
+        "secret": "SEC466b0fe66340744d37315229f8c5a1adbbddd7c8acffc5e8f54c8209c0a78aae"
+    }
+}

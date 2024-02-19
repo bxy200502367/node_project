@@ -1,0 +1,37 @@
+{
+    "console": {},
+    "errorJsonFile": {
+        "filename": "json.log",
+        "dirname": "/mnt/clustre/users/sanger-dev/wpm2/workspace/submit_system_log/log/error_json",
+        "datePattern": "YYYY-MM-DD",
+        "zippedArchive": true,
+        "maxSize": "20m",
+        "maxFiles": "30d",
+        "level": "error"
+    },
+    "errorFile": {
+        "filename": "error.log",
+        "dirname": "/mnt/clustre/users/sanger-dev/wpm2/workspace/submit_system_log/log/error",
+        "maxsize": "1024000",
+        "level": "error"
+    },
+    "jsonFile": {
+        "filename": "json.log",
+        "dirname": "/mnt/clustre/users/sanger-dev/wpm2/workspace/submit_system_log/log/json",
+        "datePattern": "YYYY-MM-DD",
+        "zippedArchive": true,
+        "maxSize": "20m",
+        "maxFiles": "30d"
+    },
+    "allFile": {
+        "filename": "maintain-%DATE%.log",
+        "dirname": "/mnt/clustre/users/sanger-dev/wpm2/workspace/submit_system_log/log/maintain_log",
+        "datePattern": "YYYY-MM-DD",
+        "zippedArchive": true,
+        "maxSize": "20m",
+        "maxFiles": "30d"
+    },
+    "level": "debug",
+    "timeFormat": "yyyy-MM-dd HH:mm:ss",
+    "logFormat": "{formattedDate} -- {level} -- {message}"
+}
