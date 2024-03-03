@@ -1,0 +1,1 @@
+{"version":3,"file":"LockFileManager.d.mts","sourceRoot":"","sources":["../../../../../src/tools/task-manager/LockFileManager.mts"],"names":[],"mappings":"AAGA,cAAM,eAAe;IACjB,SAAgB,YAAY,EAAE,MAAM,CAAC;gBAEzB,YAAY,EAAE,MAAM;IAQnB,aAAa,IAAI,OAAO,CAAC,IAAI,CAAC;IAQ9B,mBAAmB,IAAI,OAAO,CAAC,OAAO,CAAC;IAsBvC,cAAc,IAAI,OAAO,CAAC,IAAI,CAAC;CAI/C;AAED,OAAO,EAAE,eAAe,EAAE,CAAC"}

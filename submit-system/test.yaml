@@ -1,0 +1,101 @@
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: runtool-parallel-test06
+  namespace: mcstool
+spec:
+  # selector:
+  #   matchLabels:
+  #     app: runtool
+  completions: 1
+  parallelism: 1
+  backoffLimit: 0
+  template:
+    # metadata:
+    #   labels:
+    #     app: runtool
+    spec:
+      imagePullSecrets:
+      - name: mcstool-harbor-key
+      volumes:
+      - name: pvc-mcstool-clustre
+        persistentVolumeClaim:
+          claimName: pvc-mcstool-clustre
+      # - name: wpm-workspace-dlustre
+      #   persistentVolumeClaim:
+      #     claimName: pvc-mcstool-dlustre
+      # - name: wpm-workspace-upload
+      #   persistentVolumeClaim:
+      #     claimName: pvc-mcstool-upload
+      containers:
+      - name: tooljob
+        # image: python:2.7.10
+        image: hub.majorbio.com/mcstool/runtool-base:v1.0
+        workingDir: /toolrun
+        command: ["/bin/sh"]
+        # args: ["-c", "python /toolrun/runtool/runtool_test.py -t DatasplitGenerateEmptyFastq"]
+        args: ["-c", "while true; do echo 'runnig wfm!'; sleep 500; done"]
+        resources:
+          requests:
+            cpu: 1
+            memory: 1Gi
+          limits:
+            cpu: 1
+            memory: 1Gi
+
+        # securityContext:
+        #   runAsUser: 1003
+        #   runAsGroup: 1003
+        # env:
+          # - name: RUN_DIR
+          #   value: "/toolrun"
+          # - name: SCRIPTS_DIR
+          #   value: "/sanger_bioinfo"
+          # - name: SOFTWARE_DIR
+          #   value: "/app"
+          # - name: TOOL_DIR
+          #   value: "/mnt/clustre/users/sanger-dev/wpm2/workspace/20240124/LibrarySplit_wfm2_mcs_library_split_01_240124/ParallelBclToFastq/DatasplitBclToFastq/DatasplitProcessFastq"
+          # - name: TZ
+          #   value: "Asia/Shanghai"
+          # - name: TOOL_ID
+          #   value: "wfm2_mcs_library_split_01_240124.ParallelBclToFastq.DatasplitBclToFastq.DatasplitProcessFastq"
+          # - name: TOOL_NAME
+          #   value: "DatasplitProcessFastq"
+          # - name: WORKFLOW_DIR
+          #   value: "/mnt/clustre/users/sanger-dev/wpm2/workspace/20240124/LibrarySplit_wfm2_mcs_library_split_01_240124"
+        volumeMounts:
+        - mountPath: /toolrun
+          readOnly: false
+          name: pvc-mcstool-clustre
+          subPath: wpm2/workspace/20240124/LibrarySplit_wfm2_mcs_library_split_01_240124/ParallelBclToFastq/DatasplitBclToFastq/DatasplitProcessFastq
+        - mountPath: /mnt/clustre/users/sanger-dev/wpm2/workspace/20240124/LibrarySplit_wfm2_mcs_library_split_01_240124
+          name: pvc-mcstool-clustre
+          readOnly: false
+          subPath: wpm2/workspace/20240124/LibrarySplit_wfm2_mcs_library_split_01_240124
+        # - mountPath: /app
+        #   name: pvc-mcstool-clustre
+        #   readOnly: true
+        #   subPath: app/
+        # - mountPath: /sanger_bioinfo
+        #   name: pvc-mcstool-clustre
+        #   readOnly: true
+        #   subPath: wpm2/sanger_bioinfo
+        # - mountPath: /mnt/upload
+        #   name: wpm-workspace-upload
+        #   readOnly: true
+      restartPolicy: Never
+      affinity:
+        nodeAffinity:
+          requiredDuringSchedulingIgnoredDuringExecution:
+            nodeSelectorTerms:
+            - matchExpressions:
+              - key: kubernetes.io/hostname
+                operator: In
+                values:
+                - mcs-1
+                - mcs-2
+                - mcs-3
+                - mcs-4
+                - mcs-5
+                - mcs-6
+      

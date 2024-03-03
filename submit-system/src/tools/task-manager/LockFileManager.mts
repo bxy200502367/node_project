@@ -2,7 +2,7 @@ import { promises as fs } from 'fs';
 import * as os from 'os';
 
 class LockFileManager {
-    private readonly lockFilePath: string;
+    public readonly lockFilePath: string;
 
     constructor(lockFilePath: string) {
         this.lockFilePath = lockFilePath;

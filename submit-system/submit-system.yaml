@@ -1,0 +1,82 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: submit-system
+  namespace: mcstool
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: submit-system
+  template:
+    metadata:
+      labels:
+        app: submit-system
+    spec:
+      imagePullSecrets:
+      - name: mcstool-harbor-key
+      volumes:
+      - name: pvc-mcstool-clustre
+        persistentVolumeClaim:
+          claimName: pvc-mcstool-clustre
+      - name: pvc-mcstool-dlustre
+        persistentVolumeClaim:
+          claimName: pvc-mcstool-dlustre
+      - name: pvc-mcstool-upload
+        persistentVolumeClaim:
+          claimName: pvc-mcstool-upload
+      containers:
+      - name: submit-system
+        image: hub.majorbio.com/mcsdev-system/submit-system:v1.0.0
+        workingDir: /app
+        resources:
+          requests:
+            cpu: "1"
+            memory: 1Gi
+          limits:
+            cpu: "1"
+            memory: 1Gi
+        volumeMounts:
+        - mountPath: /mnt/clustre/users/sanger-dev/wpm2/workspace/submit_system_log/log
+          readOnly: false
+          name: pvc-mcstool-clustre
+          subPath: wpm2/workspace/submit_system_log/log
+        - mountPath: /mnt/clustre/users/sanger-dev/wpm2/workspace
+          name: pvc-mcstool-clustre
+          readOnly: false
+          subPath: wpm2/workspace
+        - mountPath: /mnt/dlustre/users/sanger/wpm2/workspace
+          name: pvc-mcstool-dlustre
+          readOnly: false
+          subPath: wpm2/workspace
+        - mountPath: /mnt/upload/novaseq/LH00278
+          name: pvc-mcstool-upload
+          readOnly: false
+          subPath: novaseq/LH00278
+        - mountPath: /mnt/upload/novaseq/LH00272
+          name: pvc-mcstool-upload
+          readOnly: false
+          subPath: novaseq/LH00272
+        - mountPath: /mnt/upload/nextseq/VH01349
+          name: pvc-mcstool-upload
+          readOnly: false
+          subPath: nextseq/VH01349
+        - mountPath: /mnt/upload/nextseq/VH01218
+          name: pvc-mcstool-upload
+          readOnly: false
+          subPath: nextseq/VH01218
+      restartPolicy: Always
+      affinity:
+        nodeAffinity:
+          requiredDuringSchedulingIgnoredDuringExecution:
+            nodeSelectorTerms:
+            - matchExpressions:
+              - key: kubernetes.io/hostname
+                operator: In
+                values:
+                - mcs-1
+                - mcs-2
+                - mcs-3
+                - mcs-4
+                - mcs-5
+                - mcs-6

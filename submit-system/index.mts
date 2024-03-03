@@ -1,5 +1,5 @@
 /*
- * @LastEditTime: 2024/02/18
+ * @LastEditTime: 2024/03/02
  * @Author: yuan.xu
  * @mail: yuan.xu@majorbio.com
  */
@@ -8,19 +8,24 @@ import * as path from 'path';
 import { fileURLToPath } from 'url';
 import { TaskRunner } from "./src/tools/TaskRunner.mjs";
 import { Logger } from './src/utils/Logger.mjs'
+import { MongodbConnection } from './src/tools/task-manager/MongodbConnection.mjs';
+import { LockFileManager } from './src/tools/task-manager/LockFileManager.mjs';
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
+const mongoConfigPath = path.join(__dirname, './src/config/mongoConfig.json');
+const lockFilePath = path.join(__dirname, './lock');
+const configFilePath = path.join(__dirname, './src/config/loggingConfig.json')
+
+const mongodbConnection = new MongodbConnection({ configPath: mongoConfigPath });
+const lockFileManager = new LockFileManager(lockFilePath)
+const logger = new Logger(configFilePath);
+
+// 创建TaskRunner实例
+const taskRunner = new TaskRunner(mongodbConnection, lockFileManager, logger);
 
 async function main() {
-    const logger = new Logger();
-    const mongoConfigPath = path.join(__dirname, './src/config/mongoConfig.json');
-    const lockFilePath = path.join(__dirname, './lock');
-
-    // 创建TaskRunner实例
-    const taskRunner = new TaskRunner(mongoConfigPath, lockFilePath);
-
     // 运行任务
     const [error] = await to(taskRunner.run()) ?? null;
     if (error) {
@@ -29,8 +34,8 @@ async function main() {
     logger.info('任务执行完成');
 }
 
-// 直接运行main函数
-main();
+// 每两分钟运行一次main函数
+setInterval(main, 2 * 60 * 1000);
 
 // import { Logger } from './src/utils/Logger.mjs'
 

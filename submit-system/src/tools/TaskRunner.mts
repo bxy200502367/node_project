@@ -1,5 +1,5 @@
 /*
- * @LastEditTime: 2024/02/18
+ * @LastEditTime: 2024/03/02
  * @Author: yuan.xu
  * @mail: yuan.xu@majorbio.com
  */
@@ -11,16 +11,14 @@ import { DocHandler } from './DocHandler.mjs'
 import { Logger } from '../utils/Logger.mjs'
 
 class TaskRunner {
-    private readonly lockFilePath: string;
     private readonly mongodbConnection: MongodbConnection;
     private readonly lockFileManager: LockFileManager;
     private readonly logger: Logger
 
-    constructor(mongoConfigPath: string, lockFilePath: string) {
-        this.lockFilePath = lockFilePath;
-        this.mongodbConnection = new MongodbConnection({ configPath: mongoConfigPath });
-        this.lockFileManager = new LockFileManager(lockFilePath)
-        this.logger = new Logger();
+    constructor(mongodbConnection: MongodbConnection, lockFileManager: LockFileManager, logger: Logger) {
+        this.mongodbConnection = mongodbConnection;
+        this.lockFileManager = lockFileManager;
+        this.logger = logger;
     }
 
     /**
@@ -40,7 +38,7 @@ class TaskRunner {
             // 创建锁文件
             const [errorWriteLockFile] = await to(this.lockFileManager.writeLockFile()) ?? null;
             if (errorWriteLockFile) {
-                this.logger.warn(`无法创建锁文件 ${this.lockFilePath}: ${errorWriteLockFile.message}`);
+                this.logger.warn(`无法创建锁文件 ${this.lockFileManager.lockFilePath}: ${errorWriteLockFile.message}`);
                 return;
             }
 

@@ -6,8 +6,8 @@
   "main": "./index.mts",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "cross-env NODE_ENV=development webpack-dev-server --config ./bulid/webpack.config.cjs",
-    "bulid": "cross-env NODE_ENV=development webpack --config ./bulid/webpack.config.cjs"
+    "start": "cross-env NODE_ENV=development webpack-dev-server --config ./build/webpack.config.cjs",
+    "build": "cross-env NODE_ENV=development webpack --config ./build/webpack.config.cjs"
   },
   "keywords": [
     "typescript"

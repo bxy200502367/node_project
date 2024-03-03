@@ -1,5 +1,5 @@
 /*
- * @LastEditTime: 2024/02/18
+ * @LastEditTime: 2024/02/21
  * @Author: yuan.xu
  * @mail: yuan.xu@majorbio.com
  */
@@ -29,14 +29,24 @@ class SampleSplitDeliverState extends Task {
                 api: url,
                 params: params
             });
-            const [error, submit_result] = await to(submitInstance.sendApiRequest());
-            if (submit_result && submit_result["success"]) {
-                this.task.logger.info(`任务 ${taskSn} 样本拆分请求成功！`);
-                this.task.currentState = taskFactory.createTask(TaskType.SuccessProcessedState);
-            } else {
-                this.task.logger.error(`任务 ${taskSn} 样本拆分请求失败: ${error?.message}!`);
+
+            let error, submit_result;
+
+            for (let i = 0; i < 3; i++) {
+                [error, submit_result] = await to(submitInstance.sendApiRequest());
+
+                if (submit_result && submit_result["success"]) {
+                    this.task.logger.info(`任务 ${taskSn} 样本拆分请求成功！`);
+                    this.task.currentState = taskFactory.createTask(TaskType.SuccessProcessedState);
+                    break;
+                }
+            }
+
+            if (!submit_result || !submit_result["success"]) {
+                this.task.logger.error(`任务 ${taskSn} 样本拆分请求失败: ${submit_result ? submit_result["info"] : error?.message}!`);
                 this.task.currentState = taskFactory.createTask(TaskType.FailedProcessedState);
             }
+
             this.task.logger.info(`任务 ${taskSn} 接口返回结果为: ${JSON.stringify(submit_result, null, 0)}`);
         } else {
             const update = {

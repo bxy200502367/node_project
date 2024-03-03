@@ -1,0 +1,14 @@
+version: '3'
+services:
+  submit-system:
+    image: submit-system
+    volumes:
+      - /mnt/clustre/users/sanger-dev/wpm2/workspace/submit_system_log/log:/mnt/clustre/users/sanger-dev/wpm2/workspace/submit_system_log/log
+      - /mnt/clustre/users/sanger-dev/wpm2/workspace:/mnt/clustre/users/sanger-dev/wpm2/workspace
+      - /mnt/dlustre/users/sanger/wpm2/workspace:/mnt/dlustre/users/sanger/wpm2/workspace
+      - /mnt/upload/novaseq/LH00278:/mnt/upload/novaseq/LH00278
+      - /mnt/upload/novaseq/LH00272:/mnt/upload/novaseq/LH00272
+      - /mnt/upload/nextseq/VH01349:/mnt/upload/nextseq/VH01349
+      - /mnt/upload/nextseq/VH01218:/mnt/upload/nextseq/VH01218
+      - /mnt/clustre/upload/pacbio:/mnt/clustre/upload/pacbio
+    restart: always

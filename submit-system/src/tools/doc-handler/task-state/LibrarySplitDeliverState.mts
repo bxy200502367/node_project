@@ -1,5 +1,5 @@
 /*
- * @LastEditTime: 2024/02/18
+ * @LastEditTime: 2024/02/21
  * @Author: yuan.xu
  * @mail: yuan.xu@majorbio.com
  */
@@ -11,6 +11,8 @@ import { TaskType } from '../TaskFactory.mjs'
 
 class LibrarySplitDeliverState extends Task {
     public async handle() {
+        const taskSn = this.task.taskSn;
+        const taskFactory = this.task.taskFactory;
         const params = {
             split_id: this.task.splitId.toString(),
             data_source: "library"
@@ -20,15 +22,25 @@ class LibrarySplitDeliverState extends Task {
             api: url,
             params: params
         });
-        const [error, submit_result] = await to(submitInstance.sendApiRequest());
-        if (submit_result && submit_result["success"]) {
-            this.task.logger.info(`任务 ${this.task.taskSn} 文库拆分请求成功！`);
-            this.task.currentState = this.task.taskFactory.createTask(TaskType.SuccessProcessedState);
-        } else {
-            this.task.logger.error(`任务 ${this.task.taskSn} 文库拆分请求失败: ${error?.message}!`);
-            this.task.currentState = this.task.taskFactory.createTask(TaskType.FailedProcessedState);
+
+        let error, submit_result;
+
+        for (let i = 0; i < 3; i++) { // 尝试3次
+            [error, submit_result] = await to(submitInstance.sendApiRequest());
+
+            if (submit_result && submit_result["success"]) {
+                this.task.logger.info(`任务 ${taskSn} 文库拆分请求成功！`);
+                this.task.currentState = taskFactory.createTask(TaskType.SuccessProcessedState);
+                break;
+            }
         }
-        this.task.logger.info(`任务 ${this.task.taskSn} 接口返回结果为: ${JSON.stringify(submit_result, null, 0)}`);
+
+        if (!submit_result || !submit_result["success"]) {
+            this.task.logger.error(`任务 ${taskSn} 文库拆分请求失败: ${submit_result ? submit_result["info"] : error?.message}!`);
+            this.task.currentState = taskFactory.createTask(TaskType.FailedProcessedState);
+        }
+
+        this.task.logger.info(`任务 ${taskSn} 接口返回结果为: ${JSON.stringify(submit_result, null, 0)}`);
     }
 }
 
