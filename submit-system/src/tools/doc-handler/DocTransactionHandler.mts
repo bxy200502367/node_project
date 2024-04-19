@@ -1,5 +1,5 @@
 /*
- * @LastEditTime: 2024/02/18
+ * @LastEditTime: 2024/04/03
  * @Author: yuan.xu
  * @mail: yuan.xu@majorbio.com
  */
@@ -8,6 +8,9 @@ import * as moment from 'moment';
 import { AssignAllFields } from './task-method/AssignAllFields.mjs';
 import { HasMeta } from './task-method/HasMeta.mjs';
 import { HasOther } from './task-method/HasOther.mjs';
+import { HasPureLibrary } from './task-method/HasPureLibrary.mjs';
+import { HasPureSequence } from './task-method/HasPureSequence.mjs';
+import { AllPureSequence } from './task-method/AllPureSequence.mjs';
 import { HasParams } from './task-method/HasParams.mjs';
 import { CheckLibraryIndex } from './task-method/CheckLibraryIndex.mjs';
 import { CheckSpecimenBarcode } from './task-method/CheckSpecimenBarcode.mjs';
@@ -33,22 +36,31 @@ type ExtraProps = {
     firstSplitStatus?: string; // 文库拆分的状态
     secondSplitStatus?: string; // 样本拆分的状态
     qcStatus?: string; // 样本质控的状态
+    uploadStatus?: string; // 样本上传的状态
     firstSplitTaskId?: string; // 文库拆分的workflow id
     secondSplitTaskId?: string; // 样本拆分的workflow id
     qcTaskId?: string; // 样本质控的workflow id
+    uploadTaskId?: string; // 样本上传的workflow id
     firstSplitTs?: string; // 文库拆分的启动时间
     secondSplitTs?: string; // 样本拆分的启动时间
     qcTs?: string; // 样本质控的启动时间
+    uploadTs?: string; //样本上传的启动时间
     firstSplitWorkdir?: string; // 文库质控的工作目录
     secondSplitWorkdir?: string; // 样本拆分的工作目录
     qcWorkdir?: string; // 样本质控的工作目录
+    uploadDataWorkdir?: string // 样本上传的工作目录
     hasMeta?: boolean; // 是否存在多样性样本
     hasOther?: boolean; // 是否存在非多样性样本
+    hasPureLibrary?: boolean; // 是否存在纯文库
+    hasPureSequence?: boolean; // 是否存在纯测序
+    allPureSequence?: boolean; // 是否都是纯测序
     checkParamsStatus?: boolean; // 参数检查是否通过
     checkLibraryStatus?: boolean; // 文库检查是否通过
     checkSpecimenStatus?: boolean; // barcode检查是否通过
     checkSeqModelStatus?: boolean; // 测序模式检查是否通过
     checkBclPathStatus?: boolean; // bcl路径检查是否通过
+    useProcess?: number; // 确认使用次数
+    uploadProcess?: number; // 上传次数
     [key: string]: any;
 }
 
@@ -57,6 +69,9 @@ type ExtraMethods = {
     hasMeta: HasMeta;
     hasOther: HasOther;
     hasParams: HasParams;
+    hasPureLibrary: HasPureLibrary;
+    hasPureSequence: HasPureSequence;
+    allPureSequence: AllPureSequence;
     checkLibraryIndex: CheckLibraryIndex;
     checkSpecimenBarcode: CheckSpecimenBarcode;
     checkSeqModel: CheckSeqModel;
@@ -96,6 +111,9 @@ class DocTransactionHandler implements IDocTransactionHandler {
         assignAllFields: new AssignAllFields(),
         hasMeta: new HasMeta(),
         hasOther: new HasOther(),
+        hasPureLibrary: new HasPureLibrary(),
+        hasPureSequence: new HasPureSequence(),
+        allPureSequence: new AllPureSequence(),
         hasParams: new HasParams(),
         checkLibraryIndex: new CheckLibraryIndex(),
         checkSpecimenBarcode: new CheckSpecimenBarcode(),
@@ -134,6 +152,8 @@ class DocTransactionHandler implements IDocTransactionHandler {
         this.splitStatus = AssignAllFields.getField(this.doc, "split_status"); //任务的子状态
         this.splitId = AssignAllFields.getField(this.doc, "_id"); //任务的id编号
         this.params = JSON.parse(AssignAllFields.getField(this.doc, "params", "{}")); //如果params不存在，返回一个空的JSON对象
+        this.extraProps.useProcess = AssignAllFields.getField(this.doc, "use_process");
+        this.extraProps.uploadProcess = AssignAllFields.getField(this.doc, "upload_process");
         this.extraMethods.assignAllFields.assignAllFields(this); // 动态挂载属性
         this.queryMain = { "_id": this.splitId };
         this.initPromise = this.init();
@@ -145,6 +165,9 @@ class DocTransactionHandler implements IDocTransactionHandler {
     public async init(): Promise<void> {
         await this.extraMethods.hasMeta.hasMeta(this);
         await this.extraMethods.hasOther.hasOther(this);
+        await this.extraMethods.hasPureLibrary.hasPureLibrary(this);
+        await this.extraMethods.hasPureSequence.hasPureSequence(this);
+        await this.extraMethods.allPureSequence.allPureSequence(this);
     }
 
     /**

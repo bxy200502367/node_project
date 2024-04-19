@@ -1,5 +1,5 @@
 /*
- * @LastEditTime: 2024/02/18
+ * @LastEditTime: 2024/04/03
  * @Author: yuan.xu
  * @mail: yuan.xu@majorbio.com
  */
@@ -106,6 +106,29 @@ class InitialState extends Task {
             case 'start':
                 this.taskStatus = TaskType.SampleQcRunningState;
                 this.taskMessage = `任务 ${this.task.taskSn} 在样本质控中`;
+                break;
+            case 'end':
+                await this.handleUploadDataStatus();
+                break;
+        }
+    }
+
+    /**
+     * 处理样本上传状态。
+     * 根据任务的额外属性，确定并设置样本上传的状态。
+     * @returns {Promise<void>} 更新操作的Promise。
+     */
+    private async handleUploadDataStatus(): Promise<void> {
+        const uploadStatus = this.task.extraProps.uploadStatus;
+
+        switch (uploadStatus) {
+            case 'no':
+                this.taskStatus = TaskType.UploadDataDeliverState;
+                this.taskMessage = `任务 ${this.task.taskSn} 开始尝试样本上传投递`;
+                break;
+            case 'start':
+                this.taskStatus = TaskType.UploadDataRunningState;
+                this.taskMessage = `任务 ${this.task.taskSn} 在样本上传中`;
                 break;
         }
     }

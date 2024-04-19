@@ -1,5 +1,5 @@
 /*
- * @LastEditTime: 2024/02/18
+ * @LastEditTime: 2024/03/11
  * @Author: yuan.xu
  * @mail: yuan.xu@majorbio.com
  */
@@ -62,13 +62,20 @@ class CheckLibraryIndex {
     }
 
     /**
-     * 使用正则表达式来检查 indexSeq 序列中是否只包含 "A", "T", "C", "G" 和 "-"
-     * @param indexSeq - 需要检查的序列。
-     * @returns boolean - 如果序列只包含 "A", "T", "C", "G" 和 "-"，返回 true，否则返回 false。
+     * 使用正则表达式来检查 seq 序列。
+     * @param options - 一个包含 seq 和 type 的对象。
+     * @returns boolean - 如果 seq 检查通过，返回 true，否则返回 false。
      */
-    private static isValidSeq(indexSeq: string): boolean {
-        const regex = /^[ATCG-]*$/;
-        return regex.test(indexSeq);
+    private static isValid({ seq, type = "seq" }: { seq: string, type?: string }): boolean {
+        const regexMap: { [key: string]: RegExp } = {
+            'seq': /^[ATCG-]*$/,
+            'name': /^[a-zA-Z0-9_-]*$/
+        };
+        const regex = regexMap[type];
+        if (!regex) {
+            throw new Error(`未知的类型: ${type}`);
+        }
+        return regex.test(seq);
     }
 
     /**
@@ -84,8 +91,14 @@ class CheckLibraryIndex {
             const indexSeqSet = new Set();
             for (let tup of tuples) {
                 const [i7IndexId, indexSeq, libraryNumber] = tup;
-                if (!CheckLibraryIndex.isValidSeq(indexSeq)) {
+                if (!CheckLibraryIndex.isValid({ seq : indexSeq })) {
                     return [true, '含有ATCG之外的碱基', indexSeq, laneName, libraryNumber];
+                }
+                if (!CheckLibraryIndex.isValid({ seq : libraryNumber, type : "name"})) {
+                    return [true, '含有除了字母、数字、下划线和中划线之外其他的特殊字符', libraryNumber, laneName, libraryNumber]
+                }
+                if (!CheckLibraryIndex.isValid( { seq: i7IndexId, type: "name" })) {
+                    return [true, '含有除了字母、数字、下划线和中划线之外其他的特殊字符', i7IndexId, laneName, libraryNumber]
                 }
                 if (i7IndexIdSet.has(i7IndexId)) {
                     return [true, 'i7_index_id', i7IndexId, laneName, libraryNumber];

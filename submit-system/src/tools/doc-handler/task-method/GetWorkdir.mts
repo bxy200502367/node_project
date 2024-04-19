@@ -1,5 +1,5 @@
 /*
- * @LastEditTime: 2024/02/28
+ * @LastEditTime: 2024/04/03
  * @Author: yuan.xu
  * @mail: yuan.xu@majorbio.com
  */
@@ -57,6 +57,20 @@ class GetWorkdir {
         }
         return result;
     }
+
+    /**
+     * 获取样本上传的工作目录
+     * @param Doc - DocTransactionHandler 对象
+     * @returns Promise<string> - 返回一个 Promise，其解析值为工作目录的路径
+     */
+    public async getUploadDataWorkdir(Doc: DocTransactionHandler): Promise<string> {
+        const [error, result] = await to(GetWorkdir.getWorkdir(Doc, Doc.extraProps.uploadTs, Doc.extraProps.uploadTaskId, 'UploadData'));
+        if (error) {
+            throw Error(`任务 ${Doc.taskSn} 获取样本质控工作目录失败: ${error.message}`);
+        }
+        return result;
+    }
+
 
     /**
      * 获得工作目录

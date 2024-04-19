@@ -1,5 +1,5 @@
 /*
- * @LastEditTime: 2024/02/21
+ * @LastEditTime: 2024/03/25
  * @Author: yuan.xu
  * @mail: yuan.xu@majorbio.com
  */
@@ -25,9 +25,11 @@ class SampleSplitDeliverState extends Task {
                 data_source: "sample"
             };
             const url = '/s/datasplit_v3/data_split';
+            const types = 'ningbo';
             const submitInstance = new Submit({
                 api: url,
-                params: params
+                params: params,
+                types: types
             });
 
             let error, submit_result;

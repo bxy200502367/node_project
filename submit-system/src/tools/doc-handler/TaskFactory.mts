@@ -1,5 +1,5 @@
 /*
- * @LastEditTime: 2024/02/07
+ * @LastEditTime: 2024/04/03
  * @Author: yuan.xu
  * @mail: yuan.xu@majorbio.com
  */
@@ -14,6 +14,8 @@ import { SampleSplitDeliverState } from './task-state/SampleSplitDeliverState.mj
 import { SampleSplitRunningState } from './task-state/SampleSplitRunningState.mjs';
 import { SampleQcDeliverState } from './task-state/SampleQcDeliverState.mjs';
 import { SampleQcRunningState } from './task-state/SampleQcRunningState.mjs';
+import { UploadDataDeliverState } from './task-state/UploadDataDeliverState.mjs';
+import { UploadDataRunningState } from './task-state/UploadDataRunningState.mjs';
 import { WaitProcessedState } from './task-state/WaitProcessedState.mjs';
 import { FailedProcessedState } from './task-state/FailedProcessedState.mjs';
 import { SuccessProcessedState } from './task-state/SuccessProcessedState.mjs';
@@ -29,6 +31,8 @@ type TaskState =
     | SampleSplitRunningState
     | SampleQcDeliverState
     | SampleQcRunningState
+    | UploadDataDeliverState
+    | UploadDataRunningState
     | WaitProcessedState
     | FailedProcessedState
     | SuccessProcessedState
@@ -44,6 +48,8 @@ enum TaskType {
     SampleSplitRunningState = 'sampleSplitRunningStatus', // sample_split运行状态
     SampleQcDeliverState = 'sampleQcDeliverStatus', // sample_qc投递状态
     SampleQcRunningState = 'sampleQcRunningStatus', // sample_qc运行状态
+    UploadDataDeliverState = 'uploadDataDeliverState', // upload_data投递状态
+    UploadDataRunningState = 'uploadDataRunningState', // upload_data运行状态
     WaitProcessedState = 'waitProcessedStatus', // 等待下一次运行状态
     FailedProcessedState = 'failedProcessedStatus', // 处理失败状态
     SuccessProcessedState = 'successProcessedStatus', // 处理成功状态
@@ -65,6 +71,8 @@ class TaskFactory extends AbstractTaskFactory {
         [TaskType.SampleSplitRunningState]: SampleSplitRunningState,
         [TaskType.SampleQcDeliverState]: SampleQcDeliverState,
         [TaskType.SampleQcRunningState]: SampleQcRunningState,
+        [TaskType.UploadDataDeliverState]: UploadDataDeliverState,
+        [TaskType.UploadDataRunningState]: UploadDataRunningState,
         [TaskType.WaitProcessedState]: WaitProcessedState,
         [TaskType.FailedProcessedState]: FailedProcessedState,
         [TaskType.SuccessProcessedState]: SuccessProcessedState,

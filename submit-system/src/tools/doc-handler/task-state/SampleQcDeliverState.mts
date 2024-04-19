@@ -1,5 +1,5 @@
 /*
- * @LastEditTime: 2024/02/21
+ * @LastEditTime: 2024/04/01
  * @Author: yuan.xu
  * @mail: yuan.xu@majorbio.com
  */
@@ -21,7 +21,8 @@ class SampleQcDeliverState extends Task {
         if (this.task.extraProps.hasOther) {
             const params = {
                 split_id: this.task.splitId.toString(),
-                data_source: "qc"
+                data_source: "qc",
+                data_address: "all"
             };
             const url = '/s/datasplit_v3/data_split';
             const submitInstance = new Submit({

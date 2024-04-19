@@ -15,5 +15,6 @@ VOLUME ["/mnt/clustre/users/sanger-dev/wpm2/workspace/submit_system_log/log", \
         "/mnt/upload/novaseq/LH00272", \
         "/mnt/upload/nextseq/VH01349", \
         "/mnt/upload/nextseq/VH01218", \
-        "/mnt/clustre/upload/pacbio"]
+        "/mnt/clustre/upload", \
+        "/mnt/dlustre/upload"]
 CMD ["node", "./dist/main.cjs"]

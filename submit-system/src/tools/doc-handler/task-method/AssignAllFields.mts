@@ -1,5 +1,5 @@
 /*
- * @LastEditTime: 2024/02/18
+ * @LastEditTime: 2024/04/03
  * @Author: yuan.xu
  * @mail: yuan.xu@majorbio.com
  */
@@ -28,25 +28,32 @@ class AssignAllFields {
             first_split: "firstSplitStatus",
             second_split: "secondSplitStatus",
             qc: "qcStatus",
+            upload: "uploadStatus"
         },
         split_task_id: {
             first_split: "firstSplitTaskId",
             second_split: "secondSplitTaskId",
             qc: "qcTaskId",
+            upload: "uploadTaskId"
         },
         split_ts: {
             first_split: "firstSplitTs",
             second_split: "secondSplitTs",
             qc: "qcTs",
+            upload: "uploadTs"
         },
         split_workdir: {
-            first_split: "firstSplitWorkdir",
-            second_split: "secondSplitWorkdir",
-            qc: "qcWorkdir",
+            LibrarySplit: "firstSplitWorkdir",
+            SampleSplit: "secondSplitWorkdir",
+            SampleQc: "qcWorkdir",
+            UploadData: "uploadDataWorkdir"
         },
         split_check: {
             has_meta: "hasMeta",
             has_other: "hasOther",
+            has_pure_library: "hasPureLibrary",
+            has_pure_sequence: "hasPureSequence",
+            all_pure_sequence: "allPureSequence",
             check_params: "checkParamsStatus",
             check_library: "checkLibraryStatus",
             check_specimen: "checkSpecimenStatus",

@@ -25,9 +25,13 @@ spec:
       - name: pvc-mcstool-upload
         persistentVolumeClaim:
           claimName: pvc-mcstool-upload
+      - name: pvc-mcstool-upload-clustre
+        persistentVolumeClaim:
+          claimName: pvc-mcstool-upload-clustre
       containers:
       - name: submit-system
-        image: hub.majorbio.com/mcsdev-system/submit-system:v1.0.0
+        image: hub.majorbio.com/mcsdev-system/submit-system:v2.0.0
+        imagePullPolicy: Always
         workingDir: /app
         resources:
           requests:
@@ -65,6 +69,9 @@ spec:
           name: pvc-mcstool-upload
           readOnly: false
           subPath: nextseq/VH01218
+        - mountPath: /mnt/clustre/upload
+          name: pvc-mcstool-upload-clustre
+          readOnly: false
       restartPolicy: Always
       affinity:
         nodeAffinity:

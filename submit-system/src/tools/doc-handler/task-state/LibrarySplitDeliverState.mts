@@ -1,5 +1,5 @@
 /*
- * @LastEditTime: 2024/02/21
+ * @LastEditTime: 2024/03/25
  * @Author: yuan.xu
  * @mail: yuan.xu@majorbio.com
  */
@@ -15,7 +15,8 @@ class LibrarySplitDeliverState extends Task {
         const taskFactory = this.task.taskFactory;
         const params = {
             split_id: this.task.splitId.toString(),
-            data_source: "library"
+            data_source: "library",
+            data_address: "all"
         };
         const url = '/s/datasplit_v3/data_split';
         const submitInstance = new Submit({

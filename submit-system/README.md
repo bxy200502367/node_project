@@ -19,41 +19,45 @@
 ![软件简单说明](info/submit_system.png)
 
 ![任务实现原理](info/原理.png)
+
 ## 项目目录结构
-- bulid: 打包配置
-  - webpack.config.js: webpack配置文件
-- dist: 打包后的文件
-  - main.js: 打包后的运行文件
-- info: 项目说明文档
-- src: 源码
-  - config: 配置文件
-    - dingConfig.json: 钉钉配置文件
-    - loggingConfig.json: 日志配置文件
-    - mongoConfig.json: mongodb配置文件
-    - typeConfig.json: 投递配置文件
-  - tools: 工具类
-    - doc-handler: doc处理类
-        - abc: 抽象类
-          - AbstractTaskFactory.mts: 抽象工厂类,生成任务状态
-          - Task.mts: 抽象任务类
-        - task-method: 方法函数库
-        - task-state: 状态库
-    - task-manager: 任务管理类
-      - DingTalk.mts: 发送钉钉消息类
-      - LockFileManager.mts: 锁文件管理类
-      - MongodbConnection.mts: mongodb连接类
-      - Submit.mts: 任务投递类
-    - DocHandler.mts: doc处理类
-    - TaskRunner.mts: 任务运行管理类
-  - utils: 通用类
-    - ConfigLoader.mts: 配置文件加载类
-    - Logger.mts: 日志类
-    - SignatureGenerator.mts: 签名生成类
-- .eslintrc.json: eslint配置文件
-- index.mts: 入口文件
-- package.json: 项目依赖
-- tscconfig.json: ts编译配置
-- README.md: 项目说明文档
+- 📁 bulid: 打包配置
+  - 📄 webpack.config.js: webpack配置文件
+- 📁 dist: 打包后的文件
+  - 📄 main.js: 打包后的运行文件
+- 📁 info: 项目说明文档
+- 📁 src: 源码
+  - 📁 config: 配置文件
+    - 📄 dingConfig.json: 钉钉配置文件
+    - 📄 loggingConfig.json: 日志配置文件
+    - 📄 mongoConfig.json: mongodb配置文件
+    - 📄 typeConfig.json: 投递配置文件
+  - 📁 tools: 工具类
+    - 📁 doc-handler: doc处理类
+      - 📁 abc: 抽象类
+        - 📄 AbstractTaskFactory.mts: 抽象工厂类,生成任务状态
+        -  📄 Task.mts: 抽象任务类
+      - 📁 task-method: 方法函数库
+      - 📁 task-state: 状态库
+      - 📄 DocTransactionHandler.mts: doc事务处理类
+      - 📄 TaskFactory.mts: 用于根据任务类型创建不同的任务实例
+    - 📁 task-manager: 任务管理类
+      - 📄 DingTalk.mts: 发送钉钉消息类
+      - 📄 LockFileManager.mts: 锁文件管理类
+      - 📄 MongodbConnection.mts: mongodb连接类
+      - 📄 Submit.mts: 任务投递类
+    - 📄 DocHandler.mts: doc处理类
+    - 📄 TaskRunner.mts: 任务运行管理类
+  - 📁 utils: 通用类
+    - 📄 ConfigLoader.mts: 配置文件加载类
+    - 📄 Logger.mts: 日志类
+    - 📄 SignatureGenerator.mts: 签名生成类
+- 📄 .eslintrc.json: eslint配置文件
+- 📄 index.mts: 入口文件
+- 📄 package.json: 项目依赖
+- 📄 tscconfig.json: ts编译配置
+- 📄 README.md: 项目说明文档
+
 
 ## 项目使用
 1. 安装node.js

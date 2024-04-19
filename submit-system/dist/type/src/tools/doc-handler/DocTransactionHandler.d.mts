@@ -1,6 +1,8 @@
 import { AssignAllFields } from './task-method/AssignAllFields.mjs';
 import { HasMeta } from './task-method/HasMeta.mjs';
 import { HasOther } from './task-method/HasOther.mjs';
+import { HasPureLibrary } from './task-method/HasPureLibrary.mjs';
+import { HasPureSequence } from './task-method/HasPureSequence.mjs';
 import { HasParams } from './task-method/HasParams.mjs';
 import { CheckLibraryIndex } from './task-method/CheckLibraryIndex.mjs';
 import { CheckSpecimenBarcode } from './task-method/CheckSpecimenBarcode.mjs';
@@ -28,6 +30,8 @@ type ExtraProps = {
     qcWorkdir?: string;
     hasMeta?: boolean;
     hasOther?: boolean;
+    hasPureLibrary?: boolean;
+    hasPureSequence?: boolean;
     checkParamsStatus?: boolean;
     checkLibraryStatus?: boolean;
     checkSpecimenStatus?: boolean;
@@ -40,6 +44,8 @@ type ExtraMethods = {
     hasMeta: HasMeta;
     hasOther: HasOther;
     hasParams: HasParams;
+    hasPureLibrary: HasPureLibrary;
+    hasPureSequence: HasPureSequence;
     checkLibraryIndex: CheckLibraryIndex;
     checkSpecimenBarcode: CheckSpecimenBarcode;
     checkSeqModel: CheckSeqModel;
